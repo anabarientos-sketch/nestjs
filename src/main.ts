@@ -14,7 +14,7 @@ async function bootstrap() {
   const port = process.env.PORT || 3000;
 
   // Bind to all network interfaces (required by Render)
-  await app.listen(port, '0.0.0.0');
+  await app.listen(process.env.PORT || 3000, '0.0.0.0');
 
   console.log(`✅ Server is running on http://0.0.0.0:${port}`);
 }
