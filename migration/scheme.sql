@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS users (
     email VARCHAR(100) NOT NULL UNIQUE, -- added
     role VARCHAR(50) NOT NULL DEFAULT 'user',
     refresh_token VARCHAR(255),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TaIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE positions (

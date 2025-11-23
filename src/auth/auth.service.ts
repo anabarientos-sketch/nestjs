@@ -19,18 +19,14 @@ export class AuthService {
         return null;
     }
 
-
     async login(user: { id: number; username: string; role: string }) {
         const payload = { sub: user.id, username: user.username, role: user.role };
         const accessToken = this.jwtService.sign(payload);
     
-        // create refresh token using seperate secret so you can revoke access by changing refesh secret
         const refreshToken = jwt.sign(payload, process.env.JWT_REFRESH_TOKEN_SECRET || 'refresh_secret', {
             expiresIn: process.env.REFRESH_TOKEN_EXPIRES_IN || '7d',
         });
 
-        // store refresh token inDB (plain text or hashed)
-        // for better security, hash the refresh token before storing. Here we'll store plain for simplicity.
         await this.usersService.setRefreshToken(user.id, refreshToken);
 
         return { accessToken, refreshToken };
@@ -46,12 +42,12 @@ export class AuthService {
             const decoded: any = jwt.verify(refreshToken, process.env.JWT_REFRESH_TOKEN_SECRET || 'refresh_secret');
             const user = await this.usersService.findById(decoded.sub);
             if (!user) throw new UnauthorizedException('Invalid refresh token');
-            // check stored token matches
+           
             const stored = await this.usersService.findById(decoded.sub);
             const poolUser = await this.usersService.findById(decoded.sub);
-            // we need to check stored refresh_token
+            
             const u = await this.usersService.findById(decoded.sub);
-            // Instead of repeated calls, use method that fetches refresh token
+            
             const found = await this.usersService.findByRefreshToken(refreshToken);
             if (!found) throw new UnauthorizedException('Invalid refresh token (not found)');
 

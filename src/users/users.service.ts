@@ -9,7 +9,6 @@ export class UsersService {
 
     private pool = () => this.db.getPool();
 
-    // Modified
     async createUser(username: string, password: string, email: string, role = 'user') {
     const hashed = await bcrypt.hash(password, 10);
     const [result] = await this.pool().execute<OkPacket>(
@@ -19,7 +18,6 @@ export class UsersService {
     return { id: result.insertId, username, email, role };
 }
 
-
     async findByUsername(username: string) {
         const [rows] = await this.pool().execute<RowDataPacket[]>(
             'SELECT id, username, password, email, role, refresh_token FROM users WHERE username = ?',
@@ -27,7 +25,6 @@ export class UsersService {
         );
         return rows[0];
     }
-
 
     async findById(id: number) {
         const [rows] = await this.pool().execute<RowDataPacket[]>(

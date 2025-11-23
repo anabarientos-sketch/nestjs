@@ -13,10 +13,10 @@ export class PositionsController {
     @Req() req: Request,
     @Body() body: { position_code: string; position_name: string },
   ) {
-    const user = req.user as any; // comes from JwtStrategy
+    const user = req.user as any; 
     console.log('Decoded JWT user:', user);
 
-    const userId = user?.sub; // ✅ must be sub, not userId
+    const userId = user?.sub;
     if (!userId) throw new Error('User ID not found in token');
 
     return this.positionsService.create(body.position_code, body.position_name, userId);

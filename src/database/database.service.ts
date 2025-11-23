@@ -21,7 +21,6 @@ export class DatabaseService implements OnModuleInit, OnModuleDestroy {
       queueLimit: 0,
     });
 
-    // Optional: test connection
     const conn = await this.pool.getConnection();
     await conn.ping();
     conn.release();
